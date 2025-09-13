@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'home']);
+
+Route::controller(\App\Http\Controllers\LoginController::class)->group(function()
+{
+    Route::get('/login', 'login');
+    Route::post('/login', 'DoLogin');
+    Route::post('/logout','DoLogout')
 });
