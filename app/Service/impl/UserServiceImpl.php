@@ -1,7 +1,8 @@
 <?php
  namespace App\Service\impl;
 
- use App\Service\UserService;
+use App\Models\User;
+use App\Service\UserService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,9 +14,10 @@ class UserServiceImpl implements UserService
         ->where('email')
         ->first();
 
-        if(!user){
+
+        if(!$user){
             return false;
         }
-        return Hash::check($password, $user->$password);
+        return Hash::check($password, $user->password);
     }
 }
