@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OnylMemberMiddleware
 {
@@ -16,7 +17,7 @@ class OnylMemberMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->session()->exists('users')) {
+        if (Auth::check()) {
              return $next($request);
 
     }else {

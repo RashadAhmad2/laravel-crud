@@ -1,23 +1,25 @@
-<?php
-
+<?php 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', [HomeController::class, 'home']);
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'home']);
-
-Route::controller(\App\Http\Controllers\LoginController::class)->group(function()
-{
-    Route::get('/login', 'login')->middleware(App\Http\Middleware\OnylGuestMiddleware::class);
-    Route::post('/login', 'DoLogin')->middleware(App\Http\Middleware\OnylGuestMiddleware::class);
-    Route::post('/logout','DoLogout')->middleware(App\Http\Middleware\OnylMemberMiddleware::class);
+// Login
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'login')->middleware('onlyguest');
+    Route::post('/login', 'doLogin')->middleware('onlyguest');
+    Route::post('/logout','doLogout')->middleware('onlymember');
 });
+
+// Register
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/regis', 'showRegisterForm')->middleware('onlyguest');
+    Route::post('/regis', 'register')->middleware('onlyguest');
+});
+
+// Landing (hanya untuk user login)
+Route::get('/Landing', function () {
+    return view('landing');
+})->middleware(App\Http\Middleware\OnylMemberMiddleware::class);

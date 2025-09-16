@@ -6,6 +6,7 @@ use App\Service\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -20,7 +21,7 @@ class LoginController extends Controller
     public function login(): Response
     {
         return response()
-        ->view('user.login',['title' => 'login']);
+        ->view('login',['title' => 'login']);
     }
     public function DoLogin(Request $request) : Response|RedirectResponse
     {
@@ -29,17 +30,22 @@ class LoginController extends Controller
 
         if (empty($user) || empty($pass)) {
             return response()
-            ->view('userlogin',[
+            ->view('login',[
                 'title' => 'login',
                 'error' => 'Username / Passoword is Required'
             ]);
         }
         if ($this->userService->login($user, $pass)) {
-            $request->session()->put('user',$user);
-            return redirect('/');
-        }
+            $userModel = \App\Models\User::where('username', $user)->first();
+
+            if ($userModel) {
+                Auth::login($userModel, true); // <- true supaya remember
+                return redirect('/landing');
+            }
+}
+        
         return response()
-        ->view('user.login',[
+        ->view('login',[
             'title' => 'login',
             'error' => 'Username / Password is wrong'
         ]);
@@ -52,10 +58,11 @@ class LoginController extends Controller
         // kalo sesuai laravel
 
         // fungsinya menghapus semua data session
-        $request->session()->invalidate();
+        // $request->session()->invalidate();
 
-        // fungsinya regenerasi CSRF Token biar gk reuse session lama
-        $request->session()->regenerateToken();
+        // // fungsinya regenerasi CSRF Token biar gk reuse session lama
+        // $request->session()->regenerateToken();
+        Auth::logout();
 
         return redirect('/');
 
