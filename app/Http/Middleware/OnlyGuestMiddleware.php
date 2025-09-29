@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class OnylMemberMiddleware
+class OnlyGuestMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,11 +18,10 @@ class OnylMemberMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-             return $next($request);
-
-    }else {
-        return redirect('/');
-    }
-       
+            return redirect('/login');
+        }else {
+            return $next($request);
+        }
+        
     }
 }

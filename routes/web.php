@@ -1,10 +1,11 @@
-<?php 
+<?php  
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 
-Route::get('/', [HomeController::class, 'home']);
+Route::get('/', function () {
+    return redirect('/login');
+});
 
 // Login
 Route::controller(LoginController::class)->group(function () {
@@ -15,11 +16,11 @@ Route::controller(LoginController::class)->group(function () {
 
 // Register
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/regis', 'showRegisterForm')->middleware('onlyguest');
-    Route::post('/regis', 'register')->middleware('onlyguest');
+    Route::get('/register', 'showRegisterForm')->middleware('onlyguest');
+    Route::post('/register', 'doRegister')->middleware('onlyguest');
 });
 
 // Landing (hanya untuk user login)
-Route::get('/Landing', function () {
+Route::get('/landing', function () {
     return view('landing');
-})->middleware(App\Http\Middleware\OnylMemberMiddleware::class);
+})->middleware('onlymember');
