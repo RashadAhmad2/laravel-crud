@@ -18,7 +18,7 @@ class OnlyGuestMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            return redirect('/login');
+            return redirect('/');
         }else {
             return $next($request);
         }

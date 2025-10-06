@@ -15,14 +15,12 @@ class OnlyMemberMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check()) {
-             return $next($request);
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu!');
+        }
 
-    }else {
-        return redirect('/');
-    }
-       
+        return $next($request);
     }
 }

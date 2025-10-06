@@ -15,6 +15,7 @@ class LoginController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
+        $this->middleware('guest')->except('doLogout');
     }
 
     // tampilkan form login
@@ -38,13 +39,11 @@ class LoginController extends Controller
             ]);
         }
 
-        if ($this->userService->login($user, $pass)) {
-            $userModel = \App\Models\User::where('username', $user)->first();
+           // check user
+         $credentials = $request->only('username', 'password');
 
-            if ($userModel) {
-                Auth::login($userModel, true); // true = remember me
-                return redirect('/landing');
-            }
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('landing');
         }
 
         return response()->view('user.login', [
@@ -57,7 +56,10 @@ class LoginController extends Controller
     public function doLogout(Request $request): RedirectResponse
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/login');
+    return redirect('/login')->with('success', 'Berhasil logout');
+
     }
 }

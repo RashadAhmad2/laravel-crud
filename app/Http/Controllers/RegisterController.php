@@ -38,15 +38,11 @@ class RegisterController extends Controller
             'password.min'      => 'Password minimal 6 karakter.',
             'password.confirmed'=> 'Konfirmasi password tidak sama.',
         ]);
-
-        // Simpan user baru 
-        $data = $request->except('password_confirmation');
-        $data['password'] = Hash::make($request->password);
-        $user = User::create($data);
-
-        // Opsional: auto login
-        
-        Auth::login($user);
+        User::create([
+            'username' => $request->username,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
         // Redirect dengan flash message
         return redirect('/login')->with('success', 'Registrasi berhasil, silakan login!');
