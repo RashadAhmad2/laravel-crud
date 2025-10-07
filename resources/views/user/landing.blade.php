@@ -335,7 +335,7 @@
             <div class="logo">HRMS</div>
             <div class="top-nav-links">
                 <a href="#">Produk</a>
-                <a href="#">Karyawan</a>
+                <a href="/karyawan">Karyawan</a>
                 <a href="#">Bantuan</a>
                 <a href="#">Employee Benefits</a>
                 <a href="#">FWD MAX</a>
@@ -352,7 +352,7 @@
         </div>
         
         <div class="main-menu">
-            <a href="#" class="active">Karyawan</a>
+            <a href="/karyawan">Karyawan</a>
             <a href="#">Gaji Karyawan</a>
             <a href="#">Lembur Karyawan</a>
             <a href="#">Golongan Tunjangan</a>

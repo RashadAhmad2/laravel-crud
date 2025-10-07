@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+use App\Http\Controllers\KaryawanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -25,3 +27,12 @@ Route::controller(RegisterController::class)->group(function () {
 Route::get('/landing', function () {
     return view('user.landing');
 })->middleware('onlymember');
+
+// Karyawan
+Route::controller(KaryawanController::class)->group(function(){
+    Route::get('/karyawan','index')->middleware('onlymember');
+    Route::get('/tambah','ViewTambah')->middleware('onlymember');
+    Route::post('/store','storePegawai')->middleware('onlymember');
+    Route::get('/edit/{id}','edit')->middleware('onlymember');
+    Route::post('/storeUpdate','ProsesEdit')->middleware('onlymember');
+});
