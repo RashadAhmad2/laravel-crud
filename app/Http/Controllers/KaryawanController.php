@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use Termwind\Components\Raw;
 
 class KaryawanController extends Controller
 {
@@ -42,9 +44,16 @@ class KaryawanController extends Controller
             'nama_karyawan' => $request->nama_karyawan,
             'jabatan' => $request->jabatan,
             'umur' => $request->umur,
-            'alamat' => $request->almt,
+            'alamat' => $request->alamat,
             'gaji' => $request->gaji,
         ]);
+        return redirect('/karyawan');
+    }
+
+    public function delete($id)
+    {
+        $dl = DB::table('karyawan')->where('id_karyawan',$id)->delete();
+
         return redirect('/karyawan');
     }
 }

@@ -35,4 +35,5 @@ Route::controller(KaryawanController::class)->group(function(){
     Route::post('/store','storePegawai')->middleware('onlymember');
     Route::get('/edit/{id}','edit')->middleware('onlymember');
     Route::post('/storeUpdate','ProsesEdit')->middleware('onlymember');
+    Route::delete('/hapus/{id}','delete')->middleware('onlymember');
 });

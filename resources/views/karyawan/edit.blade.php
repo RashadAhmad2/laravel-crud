@@ -151,6 +151,8 @@
         <form action="/storeUpdate" method="POST">
             @csrf
             @method('POST')
+
+            <input type="hidden" name="id" value="{{ $p->id_karyawan }}">
             
             <div class="form-group">
                 <label for="nama_karyawan">Nama Karyawan <span class="required">*</span></label>

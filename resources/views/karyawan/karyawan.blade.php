@@ -158,7 +158,7 @@
                             <td>
                                 <div class="action-buttons">
                                     <a href="edit/{{$karyawan->id_karyawan}}" class="btn-edit">Edit</a>
-                                    <form action="#" method="POST" style="display: inline;">
+                                    <form action="/hapus/{{$karyawan->id_karyawan}}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
